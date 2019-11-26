@@ -1,0 +1,28 @@
+create(v1:vehicle_type{name:"heavy"}),
+        (v2:vehicle_type{name:"light"}),
+        (vv1:vehicle{name:"royal enfield"}),
+        (vv2:vehicle{name:"splendor"}),
+        (vv3:vehicle{name:"jeep"}),
+        (c1:customer{name:"deepak"}),
+        (c2:customer{name:"akash"}),
+        (c3:customer{name:"pranav"}),
+        (c4:customer{name:"rishi"})
+
+create(v1)-[:has]->(vv1),
+        (v1)-[:has]->(vv3),
+        (v2)-[:has]->(vv2),
+        (c1)-[:bought]->(v1),
+        (c2)-[:bought]->(v1),
+        (c3)-[:bought]->(v1),
+        (c4)-[:bought]->(v2),
+        (c2)-[:bought]->(v2),
+        (c1)-[:recommended]->(v1),
+        (c2)-[:recommended]->(v1),
+        (c3)-[:recommended]->(v1),
+        (c2)-[:recommended]->(v2),
+        (c4)-[:recommended]->(v2) return v1,v2,vv1,vv2,vv3,c1,c2,c3,c4
+
+A: match(v:vehicle_type)-[:has]->(v1:vehicle) where v.name="heavy" return v1
+B: match(c:customer)-[:bought]->(v:vehicle_type) where v.name="light" return c
+C: match(c:customer)-[b:bought]->(v:vehicle_type) return c, count(b) as cnt, count(v) as cnt1
+D: match(c:customer)-[r:recommended]->(v:vehicle_type) return v, count(r) as cnt
